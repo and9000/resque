@@ -304,7 +304,7 @@ module Resque
           self.class.get_rackup_or_rack_handler.get(@app.server)
         end
 
-      # If all else fails, we'll use Thin
+      # If all else fails, we'll use Puma
       else
         rack_server = JRUBY ? 'webrick' : 'puma'
         self.class.get_rackup_or_rack_handler.get(rack_server)
