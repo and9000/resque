@@ -24,22 +24,26 @@ jobs:
           - 4.8
           - latest
         ruby-version:
-          - 2.4
-          - 2.5
           - 2.6
           - 2.7
           - "3.0"
           - 3.1
           - 3.2
           - 3.3
+          - 3.4
           - head
+        rack-version:
+          - 1
+          - 2
+          - 3
         exclude:
-          - { ruby-version: 2.4, redis-version: latest }
+          - { ruby-version: 2.6, rack-version: 3 }
     env:
       REDIS_VERSION: "${{ matrix.redis-version }}"
+      RACK_VERSION: "${{ matrix.rack-version }}"
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: "${{ matrix.ruby-version }}"
@@ -50,9 +54,9 @@ jobs:
   rubocop:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.2
+          ruby-version: 3.4
           bundler-cache: true
       - run: bundle exec rubocop

@@ -3,7 +3,10 @@ require 'logger'
 require 'optparse'
 require 'fileutils'
 require 'rack'
-require 'rackup'
+begin
+  require 'rackup'
+rescue LoadError
+end
 require 'resque/server'
 
 # only used with `bin/resque-web`
@@ -272,7 +275,7 @@ module Resque
     end
 
     def self.get_rackup_or_rack_handler
-      defined?(::Rackup::Handler) ? ::Rackup::Handler : ::Rack::Handler
+      defined?(::Rackup::Handler) && ::Rack.release >= '3' ? ::Rackup::Handler : ::Rack::Handler
     end
 
   private
@@ -304,9 +307,9 @@ module Resque
           self.class.get_rackup_or_rack_handler.get(@app.server)
         end
 
-      # If all else fails, we'll use Puma
+      # If all else fails, we'll use Thin
       else
-        rack_server = JRUBY ? 'webrick' : 'puma'
+        rack_server = JRUBY ? 'webrick' : 'thin'
         self.class.get_rackup_or_rack_handler.get(rack_server)
       end
     end

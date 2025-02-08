@@ -12,16 +12,19 @@ gem "json"
 gem "minitest", "~> 5.11"
 gem "mocha", "~> 2.0", require: false
 
-ruby_version = Gem::Version.new(RUBY_VERSION)
-if ruby_version >= Gem::Version.new("2.4") && ruby_version < Gem::Version.new("2.6")
-  gem "rack", "~> 1"
-elsif ruby_version >= Gem::Version.new("2.6") && ruby_version < Gem::Version.new("2.7")
-  gem "rack", "~> 2"
-else
-  gem "rack"
+rack_version = ENV.fetch('RACK_VERSION', '3')
+gem "rack", "~> #{rack_version}.0"
+
+if rack_version.to_i >= 3
+  gem "rackup"
 end
 
+gem "ostruct"
 gem "rack-test", "~> 2.0"
 gem "rake"
 gem "rubocop", "~> 0.80"
 gem "pry"
+
+gem "thin", git: "https://github.com/macournoyer/thin.git"
+# gem "thin"
+gem "webrick"
