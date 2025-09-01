@@ -1,6 +1,6 @@
 eval_gemfile "../../Gemfile"
 
-gem "rails", github: "rails/rails"
+gem "rails", "~> 8.0"
 gem "zeitwerk"
 gem "bootsnap"
 gem "resque-scheduler"
