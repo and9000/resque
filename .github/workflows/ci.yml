@@ -35,6 +35,9 @@ jobs:
         rack-version:
           - 1
           - 2
+          - 3
+        exclude:
+          - { ruby-version: 2.6, rack-version: 3 }
     env:
       REDIS_VERSION: "${{ matrix.redis-version }}"
       RACK_VERSION: "${{ matrix.rack-version }}"
@@ -69,6 +72,7 @@ jobs:
           - main
         rack-version:
           - 2
+          - 3
         exclude:
           - { ruby-version: 3.1, rails-version: "8.0" }
           - { ruby-version: 3.1, rails-version: main }
@@ -108,6 +112,7 @@ jobs:
           - main
         rack-version:
           - 2
+          - 3
         include:
           - ruby-version: head
             rails-version: "8.0"
